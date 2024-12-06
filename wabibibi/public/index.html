@@ -6,14 +6,16 @@
     <title>文章提取器</title>
     <style>
         :root {
-            --primary-color: #0071e3;
-            --success-color: #34c759;
-            --error-color: #ff3b30;
-            --text-primary: #1d1d1f;
-            --text-secondary: #86868b;
-            --background-primary: #ffffff;
-            --background-secondary: #f5f5f7;
-            --border-color: #d2d2d7;
+            /* 莫兰迪色系配色方案 */
+            --background-color: #D6E3E7;  /* 北欧风莫兰迪淡蓝色 */
+            --primary-color: #8B9DA5;     /* 莫兰迪灰蓝色 */
+            --secondary-color: #B4C4C9;   /* 莫兰迪浅灰蓝色 */
+            --accent-color: #A6B5BC;      /* 莫兰迪中灰蓝色 */
+            --text-primary: #4A5A64;      /* 深灰蓝色文字 */
+            --text-secondary: #7A8A94;    /* 中灰蓝色文字 */
+            --success-color: #9EB4AA;     /* 莫兰迪绿色 */
+            --error-color: #C4A5A5;       /* 莫兰迪红色 */
+            --border-color: #CBD5D9;      /* 浅灰边框色 */
         }
 
         * {
@@ -26,69 +28,81 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
-            background-color: var(--background-secondary);
+            background-color: var(--background-color);
             color: var(--text-primary);
             line-height: 1.47059;
             font-weight: 400;
             letter-spacing: -0.022em;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            margin: 0;
+            padding: 20px 0;
         }
 
         .container {
-            max-width: 680px;
-            margin: 48px auto;
+            max-width: 780px;
+            margin: 0 auto;
             padding: 0 20px;
+            width: 100%;
         }
 
         .app-container {
-            background: var(--background-primary);
-            padding: 40px;
-            border-radius: 18px;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 48px;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(8px);
             transition: all 0.3s ease;
         }
 
         .app-container:hover {
-            box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
         }
 
         h1 {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 600;
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 40px;
             letter-spacing: -0.003em;
+            color: var(--text-primary);
         }
 
         .input-group {
-            margin-bottom: 24px;
+            margin-bottom: 32px;
         }
 
         input[type="url"] {
             width: 100%;
-            padding: 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
+            padding: 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
             font-size: 17px;
             font-family: inherit;
-            transition: all 0.2s ease;
-            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            margin-bottom: 16px;
             outline: none;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--text-primary);
         }
 
         input[type="url"]:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(0,113,227,0.1);
+            box-shadow: 0 0 0 4px rgba(139, 157, 165, 0.1);
+            background: rgba(255, 255, 255, 1);
         }
 
         button {
             width: 100%;
-            padding: 16px 24px;
+            padding: 18px 24px;
             border: none;
-            border-radius: 12px;
+            border-radius: 16px;
             font-size: 17px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             font-family: inherit;
             letter-spacing: -0.022em;
         }
@@ -99,37 +113,37 @@
         }
 
         .extract-btn:hover {
-            background-color: #0077ed;
+            background-color: var(--accent-color);
             transform: translateY(-1px);
         }
 
         .copy-btn {
             background-color: var(--success-color);
             color: white;
-            margin-top: 16px;
+            margin-top: 20px;
             display: none;
         }
 
         .copy-btn:hover {
-            background-color: #32b357;
+            background-color: #8FA69C;
             transform: translateY(-1px);
         }
 
         #result {
-            margin-top: 24px;
-            padding: 24px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
+            margin-top: 32px;
+            padding: 28px;
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
             min-height: 120px;
             max-height: 500px;
             overflow-y: auto;
             white-space: pre-wrap;
-            line-height: 1.6;
+            line-height: 1.8;
             font-size: 17px;
             color: var(--text-primary);
-            background: var(--background-secondary);
+            background: rgba(255, 255, 255, 0.8);
             font-family: inherit;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }
 
         #result::-webkit-scrollbar {
@@ -141,20 +155,20 @@
         }
 
         #result::-webkit-scrollbar-thumb {
-            background: #86868b;
+            background: var(--secondary-color);
             border-radius: 4px;
-            border: 2px solid var(--background-secondary);
+            border: 2px solid rgba(255, 255, 255, 0.8);
         }
 
         #result::-webkit-scrollbar-thumb:hover {
-            background: #666;
+            background: var(--primary-color);
         }
 
         .error {
             color: var(--error-color);
             text-align: center;
-            margin-top: 12px;
-            font-size: 14px;
+            margin-top: 16px;
+            font-size: 15px;
             opacity: 0;
             transform: translateY(-10px);
             transition: all 0.3s ease;
@@ -194,16 +208,21 @@
         }
 
         @media (max-width: 768px) {
-            .container {
-                margin: 20px auto;
+            body {
+                padding: 10px 0;
             }
             
             .app-container {
-                padding: 24px;
+                padding: 28px;
             }
 
             h1 {
-                font-size: 24px;
+                font-size: 28px;
+                margin-bottom: 32px;
+            }
+
+            input[type="url"], button {
+                padding: 16px;
             }
         }
     </style>
